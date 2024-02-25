@@ -26,3 +26,7 @@ body {
 .workouts {
   background-color: grey;
 }
+
+#map {
+  height: 100%;
+}
