@@ -36,7 +36,7 @@ body {
   height: 92%;
   width: 95%;
   display: grid;
-  grid-template-columns: 1fr 1.7fr;
+  grid-template-columns: 1.7fr 1fr;
 }
 
 .logo {
@@ -59,24 +59,37 @@ body {
   background-color: var(--color-dark--2);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem 4.6rem;
+  gap: 1rem 3.6rem;
   padding: 1.4rem 4.6rem;
   font-size: 1.4rem;
   color: rgb(255, 255, 255);
   font-weight: 500;
   border-radius: 9px;
+
+  transition: all 0.5s, transform 1ms;
+}
+
+.form.hidden {
+  transform: translateY(-30rem);
+  height: 0;
+  padding: 0 2.25rem;
+  margin-bottom: 0;
+  opacity: 0;
+}
+
+form label {
+  flex: 0 0 50%;
 }
 
 .form-row {
+  gap: 0.8rem;
   display: flex;
-  gap: 1.2rem;
-  justify-content: space-between;
   align-items: center;
 }
 
 .form-input-box {
   padding: 0.4rem 0.6rem;
-  width: 50%;
+  width: 100%;
   border: none;
   border-radius: 2px;
 }
