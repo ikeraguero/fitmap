@@ -12,6 +12,7 @@ const loadMap = function () {
     const { latitude: lat, longitude: lgn } = res.coords;
     console.log(lat, lgn);
     const map = L.map("map").setView([lat, lgn], 13);
+    const marker = L.marker([lat, lgn]).addTo(map);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
