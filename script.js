@@ -13,23 +13,30 @@ let map, marker;
 
 const loadMap = function () {
   getPosition().then((res) => {
-    console.log(res);
-    const { latitude: lat, longitude: lgn } = res.coords;
-    console.log(lat, lgn);
-    map = L.map("map").setView([lat, lgn], 13);
-    marker = L.marker([lat, lgn]).addTo(map);
+    //Getting current user coords
+    const { latitude: lat, longitude: lng } = res.coords;
 
+    //Creating map
+    map = L.map("map").setView([lat, lng], 13);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
+
+    // Add marker to map
+    map.on("click", (e) => {
+      const { lat: clickLat, lng: clickLng } = e.latlng;
+      addMarker(clickLat, clickLng);
+      formEl.classList.remove("hidden");
+    });
   });
 };
 
 loadMap();
 
-mapEl.addEventListener("click", (e) => {
-  formEl.classList.remove("hidden");
-  console.log(e);
-});
+const addMarker = function (lat, lng) {
+  const marker = L.marker([lat, lng]).addTo(map).bindPopup("Test").openPopup();
+};
+
+console.log(map);
