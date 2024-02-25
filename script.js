@@ -1,7 +1,24 @@
-const map = L.map("map").setView([51.505, -0.09], 13);
+// Initializing functions/methods
 
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
-  attribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(map);
+const getPosition = function () {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const loadMap = function () {
+  getPosition().then((res) => {
+    console.log(res);
+    const { latitude: lat, longitude: lgn } = res.coords;
+    console.log(lat, lgn);
+    const map = L.map("map").setView([lat, lgn], 13);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+  });
+};
+
+loadMap();
