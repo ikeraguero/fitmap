@@ -2,6 +2,16 @@
 
 const mapEl = document.querySelector("#map");
 const formEl = document.querySelector(".form");
+const inputType = document.querySelector(".form-input-type");
+const inputCadence = document.querySelector(".form-cadence");
+const inputElevation = document.querySelector(".form-elevation");
+
+console.log(inputType);
+
+inputType.addEventListener("change", () => {
+  inputCadence.classList.toggle("hidden");
+  inputElevation.classList.toggle("hidden");
+});
 
 const getPosition = function () {
   return new Promise((resolve, reject) => {
@@ -40,3 +50,21 @@ const addMarker = function (lat, lng) {
 };
 
 console.log(map);
+
+// Classes
+
+class App {
+  constructor() {}
+}
+
+class Workout {
+  constructor() {}
+}
+
+class Running extends Workout {
+  constructor() {}
+}
+
+class Cycling extends Workout {
+  constructor() {}
+}
