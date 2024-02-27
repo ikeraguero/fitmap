@@ -54,11 +54,16 @@ console.log(map);
 // Classes
 
 class App {
+  workouts = [];
   constructor() {}
 }
 
 class Workout {
-  constructor() {}
+  constructor(type, duration, distance) {
+    this.type = type;
+    this.duration = duration;
+    this.distance = distance;
+  }
 }
 
 class Running extends Workout {
