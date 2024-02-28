@@ -46,7 +46,17 @@ const loadMap = function () {
 loadMap();
 
 const addMarker = function (lat, lng) {
-  const marker = L.marker([lat, lng]).addTo(map).bindPopup("Test").openPopup();
+  const marker = L.marker([lat, lng])
+    .addTo(map)
+    .bindPopup(
+      L.popup({
+        className: "marker",
+        autoClose: false,
+        closeOnClick: false,
+      })
+    )
+    .setPopupContent("Test")
+    .openPopup();
 };
 
 console.log(map);

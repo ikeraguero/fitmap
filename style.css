@@ -98,3 +98,13 @@ form label {
 .hidden {
   display: none;
 }
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: transparent;
+  color: white;
+}
+
+.marker {
+  background-color: var(--color-dark--1);
+}
