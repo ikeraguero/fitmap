@@ -101,10 +101,20 @@ form label {
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background-color: transparent;
+  background-color: var(--color-dark--1);
   color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
-.marker {
-  background-color: var(--color-dark--1);
+.leaflet-popup-close-button {
+  display: none;
+}
+
+.marker--running .leaflet-popup-content-wrapper {
+  border-left: 9px solid #00c46a;
+}
+
+.marker--cycling .leaflet-popup-content-wrapper {
+  border-left: 9px solid #ffb545;
 }

@@ -50,7 +50,7 @@ const addMarker = function (lat, lng) {
     .addTo(map)
     .bindPopup(
       L.popup({
-        className: "marker",
+        className: "marker--running",
         autoClose: false,
         closeOnClick: false,
       })
