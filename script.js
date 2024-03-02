@@ -2,6 +2,7 @@
 
 const mapEl = document.querySelector("#map");
 const formEl = document.querySelector(".form");
+const cadenceLabel = document.querySelector(".cadence-label");
 const inputType = document.querySelector(".form-input-type");
 const inputCadence = document.querySelector(".form-cadence");
 const inputDistance = document.querySelector(".form-distance");
@@ -38,7 +39,7 @@ class Running extends Workout {
 class Cycling extends Workout {
   type = "cycling";
   constructor(coords, duration, distance, elevationGain) {
-    super(coords, duration, distance, cadence);
+    super(coords, duration, distance);
     this.elevationGain = elevationGain;
   }
 }
@@ -46,7 +47,7 @@ class Cycling extends Workout {
 console.log(formEl);
 
 inputType.addEventListener("change", () => {
-  inputCadence.classList.toggle("hidden");
+  cadenceLabel.classList.toggle("hidden");
   inputElevation.classList.toggle("hidden");
 });
 
@@ -58,7 +59,7 @@ const getPosition = function () {
 
 let map, marker, mapEvent;
 
-const addMarker = function (lat, lng) {
+const addMarker = function (lat, lng, type) {
   const marker = L.marker([lat, lng])
     .addTo(map)
     .bindPopup(
@@ -68,7 +69,7 @@ const addMarker = function (lat, lng) {
         closeOnClick: false,
       })
     )
-    .setPopupContent("Test")
+    .setPopupContent(type === "running" ? "🏃 Corrida" : "🚴 Pedalada")
     .openPopup();
 };
 
@@ -115,9 +116,16 @@ const createWorkout = function (clickLat, clickLng) {
     console.log(workouts);
   }
   if (inputType.value === "cycling") {
+    const cycling = new Cycling(
+      [clickLat, clickLng],
+      inputDuration.value,
+      inputDistance.value,
+      inputElevation.value
+    );
+    workouts.push(cycling);
     console.log("Pedalada");
   }
-  addMarker(clickLat, clickLng);
+  addMarker(clickLat, clickLng, inputType.value);
 };
 
 const showForm = function () {
