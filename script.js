@@ -75,17 +75,27 @@ class App {
 }
 
 class Workout {
-  constructor(type, duration, distance) {
-    this.type = type;
+  date = new Date();
+  id = (Date.now() + "").slice(-10);
+  constructor(coords, duration, distance) {
+    this.coords = coords;
     this.duration = duration;
     this.distance = distance;
   }
 }
 
 class Running extends Workout {
-  constructor() {}
+  type = "running";
+  constructor(coords, duration, distance, cadence) {
+    super(coords, duration, distance);
+    this.cadence = cadence;
+  }
 }
 
 class Cycling extends Workout {
-  constructor() {}
+  type = "cycling";
+  constructor(coords, duration, distance, elevationGain) {
+    super(coords, duration, distance, cadence);
+    this.elevationGain = elevationGain;
+  }
 }
