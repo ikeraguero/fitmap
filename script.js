@@ -33,6 +33,8 @@ const addMarker = function (lat, lng) {
     )
     .setPopupContent("Test")
     .openPopup();
+
+  formEl.classList.add("hidden");
 };
 
 const loadMap = function () {
