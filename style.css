@@ -118,3 +118,7 @@ form label {
 .marker--cycling .leaflet-popup-content-wrapper {
   border-left: 9px solid #ffb545;
 }
+
+.form-btn {
+  display: none;
+}

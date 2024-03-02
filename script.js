@@ -6,7 +6,7 @@ const inputType = document.querySelector(".form-input-type");
 const inputCadence = document.querySelector(".form-cadence");
 const inputElevation = document.querySelector(".form-elevation");
 
-console.log(inputType);
+console.log(formEl);
 
 inputType.addEventListener("change", () => {
   inputCadence.classList.toggle("hidden");
@@ -20,6 +20,20 @@ const getPosition = function () {
 };
 
 let map, marker;
+
+const addMarker = function (lat, lng) {
+  const marker = L.marker([lat, lng])
+    .addTo(map)
+    .bindPopup(
+      L.popup({
+        className: "marker--running",
+        autoClose: false,
+        closeOnClick: false,
+      })
+    )
+    .setPopupContent("Test")
+    .openPopup();
+};
 
 const loadMap = function () {
   getPosition().then((res) => {
@@ -37,27 +51,17 @@ const loadMap = function () {
     // Add marker to map
     map.on("click", (e) => {
       const { lat: clickLat, lng: clickLng } = e.latlng;
-      addMarker(clickLat, clickLng);
       formEl.classList.remove("hidden");
+      formEl.addEventListener("submit", function (e) {
+        e.preventDefault();
+        console.log("submit");
+        addMarker(clickLat, clickLng);
+      });
     });
   });
 };
 
 loadMap();
-
-const addMarker = function (lat, lng) {
-  const marker = L.marker([lat, lng])
-    .addTo(map)
-    .bindPopup(
-      L.popup({
-        className: "marker--running",
-        autoClose: false,
-        closeOnClick: false,
-      })
-    )
-    .setPopupContent("Test")
-    .openPopup();
-};
 
 console.log(map);
 
