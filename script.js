@@ -6,8 +6,10 @@ const cadenceLabel = document.querySelector(".cadence-label");
 const inputType = document.querySelector(".form-input-type");
 const inputCadence = document.querySelector(".form-cadence");
 const inputDistance = document.querySelector(".form-distance");
-const inputElevation = document.querySelector(".form-elevation");
+const inputElevation = document.querySelector(".input-elevation");
+const elevationEl = document.querySelector(".form-elevation");
 const inputDuration = document.querySelector(".form-duration");
+const workoutContainer = document.querySelector(".workout");
 
 // Classes
 
@@ -19,7 +21,12 @@ class App {
 const app = new App();
 
 class Workout {
-  date = new Date();
+  date = new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date());
   id = (Date.now() + "").slice(-10);
   constructor(coords, duration, distance) {
     this.coords = coords;
@@ -48,7 +55,7 @@ console.log(formEl);
 
 inputType.addEventListener("change", () => {
   cadenceLabel.classList.toggle("hidden");
-  inputElevation.classList.toggle("hidden");
+  elevationEl.classList.toggle("hidden");
 });
 
 const getPosition = function () {
@@ -59,12 +66,58 @@ const getPosition = function () {
 
 let map, marker, mapEvent;
 
+const loadWorkouts = function () {
+  workoutContainer.innerHTML = "";
+  for (const workout of workouts) {
+    console.log(workout);
+    let html = `
+    <div class="workout-inner-container ${workout.type}-workout-color">
+    <div class="workout-message">${
+      workout.type === "running" ? "Corrida" : "Pedalada"
+    } | ${workout.date}</div>
+    <div class="workout-stats">
+      <div class="distance-stat">
+        <span>${workout.type === "running" ? "🏃" : "🚴"} ${
+      workout.distance
+    }<span>km</span> </span>
+      </div>
+      <div class="duration-stat">
+        <span>⏰ ${workout.duration}<span>min</span> </span>
+      </div>
+  `;
+
+    if (workout.type === "running") {
+      html += `<div class="pace-stat">
+    <span>⚡ run <span>min/km</span> </span>
+    </div>
+    <div class="cadence-stat">
+    <span>🦶 ${workout.cadence}<span>spm</span> </span>
+    </div>
+    </div>
+    </div>`;
+    }
+    if (workout.type === "cycling") {
+      html += `<div class="pace-stat">
+    <span>⚡ cycling <span>km/h</span> </span>
+    </div>
+    <div class="cadence-stat">
+    <span>⛰️ ${workout.elevationGain}<span>m</span> </span>
+    </div>
+    </div>
+    </div>`;
+    }
+    workoutContainer.insertAdjacentHTML("afterbegin", html);
+  }
+};
+
+loadWorkouts();
+
 const addMarker = function (lat, lng, type) {
   const marker = L.marker([lat, lng])
     .addTo(map)
     .bindPopup(
       L.popup({
-        className: "marker--running",
+        className: `marker--${type}`,
         autoClose: false,
         closeOnClick: false,
       })
@@ -80,7 +133,7 @@ const loadMap = function () {
 
     //Creating map
     map = L.map("map").setView([lat, lng], 13);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -91,11 +144,13 @@ const loadMap = function () {
       console.log(e);
       mapEvent = e;
       formEl.classList.remove("hidden");
+      inputDuration.focus();
     });
     formEl.addEventListener("submit", function (e) {
       e.preventDefault();
       const { lat: latitude, lng: longitude } = mapEvent.latlng;
       createWorkout(latitude, longitude);
+      loadWorkouts();
       hideForm();
     });
   });
@@ -123,6 +178,7 @@ const createWorkout = function (clickLat, clickLng) {
       inputElevation.value
     );
     workouts.push(cycling);
+    console.log(inputElevation);
     console.log("Pedalada");
   }
   addMarker(clickLat, clickLng, inputType.value);
