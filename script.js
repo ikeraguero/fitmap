@@ -68,7 +68,8 @@ let map, marker, mapEvent;
 
 const loadWorkouts = function () {
   workoutContainer.innerHTML = "";
-  for (const workout of workouts) {
+  const workoutsLocal = JSON.parse(localStorage.getItem("workouts"));
+  for (const workout of workoutsLocal) {
     console.log(workout);
     let html = `
     <div class="workout-inner-container ${workout.type}-workout-color">
@@ -150,8 +151,10 @@ const loadMap = function () {
       e.preventDefault();
       const { lat: latitude, lng: longitude } = mapEvent.latlng;
       createWorkout(latitude, longitude);
+      setLocalStorage();
       loadWorkouts();
       hideForm();
+      console.log(JSON.parse(localStorage.getItem("workouts")));
     });
   });
 };
@@ -192,6 +195,11 @@ const hideForm = function () {
   formEl.classList.add("hidden");
 };
 
+const setLocalStorage = function () {
+  localStorage.setItem("workouts", JSON.stringify(workouts));
+};
+
 loadMap();
 
+console.log(localStorage);
 console.log(map);
