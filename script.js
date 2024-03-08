@@ -155,6 +155,8 @@ const loadMap = function () {
       loadWorkouts();
       hideForm();
       console.log(JSON.parse(localStorage.getItem("workouts")));
+
+      console.log(localStorage);
     });
   });
 };
@@ -196,10 +198,10 @@ const hideForm = function () {
 };
 
 const setLocalStorage = function () {
-  localStorage.setItem("workouts", JSON.stringify(workouts));
+  const existingWorkouts = JSON.parse(localStorage.getItem("workouts")) || [];
+  existingWorkouts.push(...workouts);
+  localStorage.setItem("workouts", JSON.stringify(existingWorkouts));
 };
 
 loadMap();
-
-console.log(localStorage);
-console.log(map);
+console.log(JSON.parse(localStorage.getItem("workouts")));
