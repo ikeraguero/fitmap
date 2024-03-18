@@ -68,7 +68,7 @@ let map, marker, mapEvent;
 
 const loadWorkouts = function () {
   workoutContainer.innerHTML = "";
-  const workoutsLocal = JSON.parse(localStorage.getItem("workouts"));
+  let workoutsLocal = JSON.parse(localStorage.getItem("workouts")) || [];
   for (const workout of workoutsLocal) {
     console.log(workout);
     let html = `
