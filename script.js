@@ -40,6 +40,10 @@ class Running extends Workout {
   constructor(coords, duration, distance, cadence) {
     super(coords, duration, distance);
     this.cadence = cadence;
+    this.calcPace()
+  }
+  calcPace() {
+    this.pace = this.duration / this.distance;
   }
 }
 
@@ -89,7 +93,7 @@ const loadWorkouts = function () {
 
     if (workout.type === "running") {
       html += `<div class="pace-stat">
-    <span>⚡ run <span>min/km</span> </span>
+    <span>⚡ ${workout.pace} <span>min/km</span> </span>
     </div>
     <div class="cadence-stat">
     <span>🦶 ${workout.cadence}<span>spm</span> </span>
@@ -131,7 +135,9 @@ const loadMap = function () {
   getPosition().then((res) => {
     //Getting current user coords
     const { latitude: lat, longitude: lng } = res.coords;
-
+    console.log(res);
+    
+    
     //Creating map
     map = L.map("map").setView([lat, lng], 13);
     L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
