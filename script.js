@@ -52,6 +52,10 @@ class Cycling extends Workout {
   constructor(coords, duration, distance, elevationGain) {
     super(coords, duration, distance);
     this.elevationGain = elevationGain;
+    this.calcSpeed()
+  }
+  calcSpeed() {
+    this.speed = this.distance/this.duration
   }
 }
 
@@ -103,7 +107,7 @@ const loadWorkouts = function () {
     }
     if (workout.type === "cycling") {
       html += `<div class="pace-stat">
-    <span>⚡ cycling <span>km/h</span> </span>
+    <span>⚡ ${workout.speed} <span>km/h</span> </span>
     </div>
     <div class="cadence-stat">
     <span>⛰️ ${workout.elevationGain}<span>m</span> </span>
