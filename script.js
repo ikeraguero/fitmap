@@ -59,7 +59,6 @@ class Cycling extends Workout {
   }
 }
 
-console.log(formEl);
 
 inputType.addEventListener("change", () => {
   cadenceLabel.classList.toggle("hidden");
@@ -75,10 +74,9 @@ const getPosition = function () {
 let map, marker, mapEvent;
 
 const loadWorkouts = function () {
-  workoutContainer.innerHTML = "";
+  workoutContainer.innerHTML = ""
   let workoutsLocal = JSON.parse(localStorage.getItem("workouts")) || [];
   for (const workout of workoutsLocal) {
-    console.log(workout);
     let html = `
     <div class="workout-inner-container ${workout.type}-workout-color">
     <div class="workout-message">${
@@ -97,7 +95,7 @@ const loadWorkouts = function () {
 
     if (workout.type === "running") {
       html += `<div class="pace-stat">
-    <span>⚡ ${workout.pace} <span>min/km</span> </span>
+    <span>⚡ ${Math.round(workout.pace * 10) / 10} <span>min/km</span> </span>
     </div>
     <div class="cadence-stat">
     <span>🦶 ${workout.cadence}<span>spm</span> </span>
@@ -107,7 +105,7 @@ const loadWorkouts = function () {
     }
     if (workout.type === "cycling") {
       html += `<div class="pace-stat">
-    <span>⚡ ${workout.speed} <span>km/h</span> </span>
+    <span>⚡ ${Math.round(workout.speed * 10) / 10} <span>km/h</span> </span>
     </div>
     <div class="cadence-stat">
     <span>⛰️ ${workout.elevationGain}<span>m</span> </span>
@@ -139,9 +137,7 @@ const loadMap = function () {
   getPosition().then((res) => {
     //Getting current user coords
     const { latitude: lat, longitude: lng } = res.coords;
-    console.log(res);
-    
-    
+
     //Creating map
     map = L.map("map").setView([lat, lng], 13);
     L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
@@ -152,11 +148,19 @@ const loadMap = function () {
 
     // Add marker to map
     map.on("click", (e) => {
-      console.log(e);
       mapEvent = e;
       formEl.classList.remove("hidden");
       inputDuration.focus();
     });
+
+    // Example: Add markers based on existing workout data
+    const workoutsLocal = JSON.parse(localStorage.getItem("workouts")) || [];
+    workoutsLocal.forEach((workout) => {
+      const { coords, type } = workout;
+      const [clickLat, clickLng] = coords;
+      addMarker(clickLat, clickLng, type);
+    });
+
     formEl.addEventListener("submit", function (e) {
       e.preventDefault();
       const { lat: latitude, lng: longitude } = mapEvent.latlng;
@@ -164,14 +168,10 @@ const loadMap = function () {
       setLocalStorage();
       loadWorkouts();
       hideForm();
-      console.log(JSON.parse(localStorage.getItem("workouts")));
-
-      console.log(localStorage);
     });
   });
 };
 
-console.log(mapEvent);
 
 // Creating workouts objects
 const createWorkout = function (clickLat, clickLng) {
@@ -183,7 +183,6 @@ const createWorkout = function (clickLat, clickLng) {
       inputCadence.value
     );
     workouts.push(running);
-    console.log(workouts);
   }
   if (inputType.value === "cycling") {
     const cycling = new Cycling(
@@ -193,8 +192,6 @@ const createWorkout = function (clickLat, clickLng) {
       inputElevation.value
     );
     workouts.push(cycling);
-    console.log(inputElevation);
-    console.log("Pedalada");
   }
   addMarker(clickLat, clickLng, inputType.value);
 };
@@ -208,10 +205,13 @@ const hideForm = function () {
 };
 
 const setLocalStorage = function () {
+  const newWorkouts = workouts.slice(-1);
   const existingWorkouts = JSON.parse(localStorage.getItem("workouts")) || [];
+  console.log(...workouts);
+  existingWorkouts.length = 0;
   existingWorkouts.push(...workouts);
   localStorage.setItem("workouts", JSON.stringify(existingWorkouts));
+  
 };
 
 loadMap();
-console.log(JSON.parse(localStorage.getItem("workouts")));
