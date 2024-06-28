@@ -1,0 +1,25 @@
+{
+  "name": "fitmap",
+  "version": "1.0.0",
+  "description": "Fitmap is an application that allows users to add markers to their current location map in order to track their workouts across the region. The project is focused on Object-Oriented Programming (OOP) concepts without adhering to any specific architecture. Please note that this is a work in progress and it was clearly inspired by Jonas Schmetdmann's 'Mapty', but designed for portuguese-speaking users.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikeraguero/fitmap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ikeraguero/fitmap/issues"
+  },
+  "homepage": "https://github.com/ikeraguero/fitmap#readme",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "core-js": "^3.37.1",
+    "parcel": "^2.12.0",
+    "regenerator-runtime": "^0.14.1"
+  }
+}
