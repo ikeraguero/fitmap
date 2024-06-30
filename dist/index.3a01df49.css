@@ -1,0 +1,154 @@
+:root {
+  --color-brand--1: #ffb545;
+  --color-brand--2: #00c46a;
+  --color-dark--1: #2d3439;
+  --color-dark--2: #42484d;
+  --color-light--1: #aaa;
+  --color-light--2: #ececec;
+  --color-light--3: #d6dee0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: Poppins, sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  display: flex;
+}
+
+#map {
+  height: 100%;
+}
+
+.main-container {
+  background-color: #d3d3d3;
+  grid-template-columns: 1.7fr 1fr;
+  width: 95%;
+  height: 92%;
+  display: grid;
+}
+
+.logo {
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+  font-size: 1.4rem;
+  display: flex;
+}
+
+.workouts {
+  background-color: var(--color-dark--1);
+  overflow-y: scroll;
+}
+
+.workouts-container {
+  padding: 0 3.2rem;
+}
+
+.form {
+  background-color: var(--color-dark--2);
+  color: #fff;
+  border-radius: 9px;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 3.6rem;
+  padding: 1.4rem 4.6rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1;
+  transition: all .5s, transform 1ms;
+  display: grid;
+}
+
+.form.hidden {
+  opacity: 0;
+  height: 0;
+  margin-bottom: 0;
+  padding: 0 2.25rem;
+  transform: translateY(-30rem);
+}
+
+form label {
+  flex: 0 0 50%;
+}
+
+.form-row {
+  align-items: center;
+  gap: .8rem;
+  display: flex;
+}
+
+.form-input-box {
+  border: none;
+  border-radius: 2px;
+  width: 100%;
+  padding: .4rem .6rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background-color: var(--color-dark--1);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.leaflet-popup-close-button {
+  display: none;
+}
+
+.marker--running .leaflet-popup-content-wrapper {
+  border-left: 9px solid #ff4b4b;
+}
+
+.marker--cycling .leaflet-popup-content-wrapper {
+  border-left: 9px solid #2260d4;
+}
+
+.form-btn {
+  display: none;
+}
+
+.workout-inner-container {
+  background-color: var(--color-dark--2);
+  color: #fff;
+  margin-top: 1.2rem;
+  padding: 1.4rem 2.4rem;
+  font-size: 1.4rem;
+}
+
+.workout-message {
+  margin-bottom: .8rem;
+  font-weight: 700;
+}
+
+.workout-stats {
+  gap: 1.6rem;
+  display: flex;
+}
+
+.workout-stats * {
+  white-space: nowrap;
+}
+
+.running-workout-color {
+  border-left: 5px solid #ff4b4b;
+}
+
+.cycling-workout-color {
+  border-left: 5px solid #2260d4;
+}
+/*# sourceMappingURL=index.3a01df49.css.map */
