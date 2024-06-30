@@ -9,13 +9,19 @@ const controlMap = async function() {
     console.log("Done")
 }
 
-const controlMarkers = function() {
+const controlForm = function(position) {
+    model.setPostion(position)
     formView.renderForm()
+}
+
+const controlWorkouts = function(newWorkout) {
+    model.addWorkout(newWorkout)
 }
 
 const init = async function() {
     await controlMap()
-    mapView.addEventHandler(controlMarkers)
+    mapView.addEventHandler(controlForm)
+    formView.addEventHandler(controlWorkouts)
 }
 
 init()

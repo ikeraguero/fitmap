@@ -596,12 +596,17 @@ const controlMap = async function() {
     (0, _mapViewDefault.default).renderMap(position);
     console.log("Done");
 };
-const controlMarkers = function() {
+const controlForm = function(position) {
+    _modelJs.setPostion(position);
     (0, _formViewJsDefault.default).renderForm();
+};
+const controlWorkouts = function(newWorkout) {
+    _modelJs.addWorkout(newWorkout);
 };
 const init = async function() {
     await controlMap();
-    (0, _mapViewDefault.default).addEventHandler(controlMarkers);
+    (0, _mapViewDefault.default).addEventHandler(controlForm);
+    (0, _formViewJsDefault.default).addEventHandler(controlWorkouts);
 };
 init();
 
@@ -619,7 +624,13 @@ class MapView {
         }).addTo(this.map);
     }
     addEventHandler(handler) {
-        this.map.addEventListener("click", handler);
+        this.map.addEventListener("click", (e)=>{
+            const { lat: latitude, lng: longitude } = e.latlng;
+            handler([
+                latitude,
+                longitude
+            ]);
+        });
     }
     addMarkers() {}
 }
@@ -659,6 +670,48 @@ exports.export = function(dest, destName, get) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getPosition", ()=>getPosition);
+parcelHelpers.export(exports, "setPostion", ()=>setPostion);
+parcelHelpers.export(exports, "addWorkout", ()=>addWorkout);
+let state = {
+    position: "",
+    workouts: []
+};
+class Workout {
+    date = new Intl.DateTimeFormat("pt-BR", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    }).format(new Date());
+    id = (Date.now() + "").slice(-10);
+    constructor(coords, duration, distance){
+        this.coords = coords;
+        this.duration = duration;
+        this.distance = distance;
+    }
+}
+class Running extends Workout {
+    type = "running";
+    constructor(coords, duration, distance, cadence){
+        super(coords, duration, distance);
+        this.cadence = cadence;
+        this.calcPace();
+    }
+    calcPace() {
+        this.pace = this.duration / this.distance;
+    }
+}
+class Cycling extends Workout {
+    type = "cycling";
+    constructor(coords, duration, distance, elevationGain){
+        super(coords, duration, distance);
+        this.elevationGain = elevationGain;
+        this.calcSpeed();
+    }
+    calcSpeed() {
+        this.speed = this.distance / this.duration;
+    }
+}
 const getPosition = async function() {
     return new Promise((resolve, reject)=>{
         navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -670,6 +723,17 @@ const getPosition = async function() {
         ];
     });
 };
+const setPostion = function(position) {
+    state.position = position;
+    console.log(state);
+};
+const addWorkout = function(newWorkout) {
+    console.log(newWorkout);
+    let workout;
+    if (newWorkout.type === "running") workout = new Running(state.position, newWorkout.duration, newWorkout.distance, newWorkout.distance);
+    if (newWorkout.type === "cycling") workout = new Cycling(state.position, newWorkout.duration, newWorkout.distance, newWorkout.elevation);
+    console.log(workout);
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cU6RJ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -680,6 +744,17 @@ class FormView {
     renderForm() {
         this.#parentEl.classList.remove("hidden");
         this.inputDuration.focus();
+    }
+    addEventHandler(handler) {
+        this.#parentEl.addEventListener("submit", (e)=>{
+            e.preventDefault();
+            console.log(this.#parentEl);
+            const dataArr = [
+                ...new FormData(this.#parentEl)
+            ];
+            const data = Object.fromEntries(dataArr);
+            handler(data);
+        });
     }
 }
 exports.default = new FormView;

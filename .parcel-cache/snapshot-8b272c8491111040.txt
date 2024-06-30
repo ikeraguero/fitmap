@@ -660,7 +660,7 @@
 73/home/ikeraguero/fitmap/node_modules/core-js/modules/es.json.stringify.js1719538490685910042 0
 61/home/ikeraguero/fitmap/node_modules/core-js/actual/escape.js1719538490710927606 0
 76/home/ikeraguero/fitmap/node_modules/core-js/modules/esnext.string.dedent.js1719538490729940955 0
-46/home/ikeraguero/fitmap/dist/index.850bd9e5.js1719705890290567832 0
+46/home/ikeraguero/fitmap/dist/index.850bd9e5.js1719706274660944725 0
 89/home/ikeraguero/fitmap/node_modules/core-js/modules/web.url-search-params.constructor.js1719538491002132038 0
 82/home/ikeraguero/fitmap/node_modules/core-js/modules/esnext.set.intersection.v2.js1719538490727939550 0
 69/home/ikeraguero/fitmap/node_modules/core-js/modules/es.math.trunc.js1719538490688912150 0
@@ -1527,7 +1527,7 @@
 70/home/ikeraguero/fitmap/node_modules/core-js/stable/symbol/iterator.js1719538490854028075 0
 67/home/ikeraguero/fitmap/node_modules/core-js/stable/symbol/match.js1719538490877044234 0
 78/home/ikeraguero/fitmap/node_modules/core-js/stable/url-search-params/index.js1719538490826008403 0
-50/home/ikeraguero/fitmap/dist/index.850bd9e5.js.map1719705890294568214 0
+50/home/ikeraguero/fitmap/dist/index.850bd9e5.js.map1719706274668944909 0
 64/home/ikeraguero/fitmap/node_modules/core-js/full/map/emplace.js1719538490671900206 0
 66/home/ikeraguero/fitmap/node_modules/core-js/stable/set-timeout.js1719538490927079363 0
 80/home/ikeraguero/fitmap/node_modules/core-js/stable/dom-exception/constructor.js1719538490640878426 0
@@ -4759,7 +4759,7 @@
 81/home/ikeraguero/fitmap/node_modules/css-tree/cjs/syntax/node/DeclarationList.cjs1719538448815155560 0
 60/home/ikeraguero/fitmap/node_modules/color-name/package.json1719538448421593445 0
 76/home/ikeraguero/fitmap/node_modules/csso/node_modules/mdn-data/CHANGELOG.md1719538448809146978 0
-28/home/ikeraguero/fitmap/dist1719705890294568214 1
+28/home/ikeraguero/fitmap/dist1719706274669944932 1
 65/home/ikeraguero/fitmap/node_modules/@parcel/workers/src/child.js1719538448580820866 0
 71/home/ikeraguero/fitmap/node_modules/type-fest/ts41/delimiter-case.d.ts1719538448603853763 0
 52/home/ikeraguero/fitmap/node_modules/htmlparser2/lib1719538448651922418 1
@@ -4793,7 +4793,7 @@
 86/home/ikeraguero/fitmap/node_modules/caniuse-lite/data/features/css-filter-function.js1719538449094552416 0
 73/home/ikeraguero/fitmap/node_modules/csso/node_modules/css-tree/README.md1719538449181674810 0
 80/home/ikeraguero/fitmap/node_modules/core-js/features/async-iterator/to-array.js1719538490961103250 0
-44/home/ikeraguero/fitmap/js/views/formView.js1719706274139932747 0
+44/home/ikeraguero/fitmap/js/views/formView.js1719707877223602313 0
 71/home/ikeraguero/fitmap/node_modules/core-js/stable/string/match-all.js1719538490875042829 0
 26/home/ikeraguero/fitmap/js1719703352546596589 1
 66/home/ikeraguero/fitmap/node_modules/@parcel/workers/src/Handle.js1719538448679962467 0
@@ -4972,7 +4972,7 @@
 79/home/ikeraguero/fitmap/node_modules/htmlnano/docs/versioned_docs/version-2.0.01719538448968374399 1
 108/home/ikeraguero/fitmap/node_modules/@parcel/optimizer-htmlnano/node_modules/css-tree/lib/syntax/node/CDO.js1719538448658932430 0
 79/home/ikeraguero/fitmap/node_modules/@swc/helpers/_/_class_apply_descriptor_get1719538449098558044 1
-35/home/ikeraguero/fitmap/js/model.js1719704962274984029 0
+35/home/ikeraguero/fitmap/js/model.js1719708657381546679 0
 62/home/ikeraguero/fitmap/node_modules/core-js/es/reflect/set.js1719538490929080768 0
 89/home/ikeraguero/fitmap/node_modules/csso/node_modules/css-tree/lib/syntax/node/Atrule.js1719538449063508805 0
 56/home/ikeraguero/fitmap/node_modules/json5/lib/util.d.ts1719538448721021110 0
@@ -5314,7 +5314,7 @@
 93/home/ikeraguero/fitmap/node_modules/caniuse-lite/data/features/same-site-cookie-attribute.js1719538449355919596 0
 89/home/ikeraguero/fitmap/node_modules/@swc/helpers/_/_tagged_template_literal/package.json1719538449215722641 0
 74/home/ikeraguero/fitmap/node_modules/caniuse-lite/data/features/css-has.js1719538449100560857 0
-40/home/ikeraguero/fitmap/js/controller.js1719705728335920582 0
+40/home/ikeraguero/fitmap/js/controller.js1719708397158689278 0
 61/home/ikeraguero/fitmap/node_modules/nullthrows/nullthrows.js1719538448496700719 0
 69/home/ikeraguero/fitmap/node_modules/node-gyp-build-optional-packages1719538448489690707 1
 100/home/ikeraguero/fitmap/node_modules/@parcel/optimizer-htmlnano/node_modules/csso/lib/replace/atrule1719538448840191318 1
@@ -8312,7 +8312,7 @@
 63/home/ikeraguero/fitmap/node_modules/core-js/es/symbol/match.js1719538490876043531 0
 62/home/ikeraguero/fitmap/node_modules/@parcel/core/src/types.js1719538449133607282 0
 62/home/ikeraguero/fitmap/node_modules/@parcel/core/src/utils.js1719538449141618537 0
-34/home/ikeraguero/fitmap/index.html1719703401398573443 0
+34/home/ikeraguero/fitmap/index.html1719707144775606029 0
 67/home/ikeraguero/fitmap/node_modules/@parcel/core/src/Validation.js1719538449143621350 0
 67/home/ikeraguero/fitmap/node_modules/@parcel/core/src/serializer.js1719538449102563671 0
 69/home/ikeraguero/fitmap/node_modules/core-js/modules/es.array.with.js1719538490683908637 0
@@ -8803,7 +8803,7 @@
 107/home/ikeraguero/fitmap/node_modules/@parcel/optimizer-svgo/node_modules/css-tree/lib/common/SyntaxError.js1719538449070518653 0
 69/home/ikeraguero/fitmap/node_modules/core-js/modules/es.array.push.js1719538490682907934 0
 70/home/ikeraguero/fitmap/node_modules/core-js/es/instance/trim-start.js1719538490987121517 0
-43/home/ikeraguero/fitmap/js/views/mapView.js1719705608468380239 0
+43/home/ikeraguero/fitmap/js/views/mapView.js1719708373993898297 0
 103/home/ikeraguero/fitmap/node_modules/@parcel/optimizer-svgo/node_modules/css-tree/lib/definition-syntax1719538449079531314 1
 115/home/ikeraguero/fitmap/node_modules/@parcel/optimizer-svgo/node_modules/css-tree/lib/definition-syntax/generate.js1719538448954354375 0
 87/home/ikeraguero/fitmap/node_modules/caniuse-lite/data/features/input-file-directory.js1719538449236752185 0

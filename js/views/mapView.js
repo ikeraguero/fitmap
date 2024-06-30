@@ -12,7 +12,10 @@ class MapView {
     }
 
     addEventHandler(handler) {
-        this.map.addEventListener("click", handler)
+        this.map.addEventListener("click", e => {
+            const { lat: latitude, lng: longitude } = e.latlng;
+            handler([latitude, longitude])
+        })
     }
 
     addMarkers() {

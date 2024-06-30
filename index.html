@@ -32,7 +32,7 @@
           <form class="form hidden">
             <div class="form-row">
               <label for="">Tipo</label>
-              <select name="" id="" class="form-input-box form-input-type">
+              <select name="type" id="" class="form-input-box form-input-type">
                 <option value="running">Corrida</option>
                 <option value="cycling">Pedalada</option>
               </select>
@@ -42,6 +42,7 @@
               <input
                 type="text"
                 placeholder="min"
+                name="duration"
                 class="form-input-box form-duration"
               />
             </div>
@@ -50,6 +51,7 @@
               <input
                 type="text"
                 placeholder="km"
+                name="distance"
                 class="form-input-box form-distance"
               />
             </div>
@@ -58,12 +60,13 @@
               <input
                 type="text"
                 placeholder="passo/min"
+                name="cadence"
                 class="form-input-box form-cadence"
               />
             </div>
             <div class="form-row form-elevation hidden">
               <label for="">Ganho Elevação</label>
-              <input type="text" placeholder="metros" class="form-input-box input-elevation" />
+              <input type="text" placeholder="metros" name="elevation" class="form-input-box input-elevation" />
             </div>
             <button class="form-btn">Ok</button>
           </form>
