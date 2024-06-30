@@ -18,8 +18,19 @@ class MapView {
         })
     }
 
-    addMarkers() {
-        
+    addMarker(workout) {
+        console.log(workout)
+    L.marker(workout.coords)
+    .addTo(this.map)
+    .bindPopup(
+      L.popup({
+        className: `marker--${workout.type}`,
+        autoClose: false,
+        closeOnClick: false,
+      })
+    )
+    .setPopupContent(workout.type === "running" ? "🏃 Corrida" : "🚴 Pedalada")
+    .openPopup();
     }
 }
 

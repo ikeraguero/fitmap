@@ -15,7 +15,10 @@ const controlForm = function(position) {
 }
 
 const controlWorkouts = function(newWorkout) {
-    model.addWorkout(newWorkout)
+    const workout = model.addWorkout(newWorkout)
+    console.log(workout)
+    mapView.addMarker(workout)
+    formView.hideForm()
 }
 
 const init = async function() {

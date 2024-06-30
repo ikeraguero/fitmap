@@ -77,4 +77,6 @@ export const addWorkout = function(newWorkout) {
           );
     }
     console.log(workout)
+    state.workouts.push(workout)
+    return workout
 }

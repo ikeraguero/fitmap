@@ -16,6 +16,10 @@ class FormView {
             handler(data)
         })
     }
+
+    hideForm() {
+        this.#parentEl.classList.add("hidden");
+    }
 }
 
 export default new FormView;

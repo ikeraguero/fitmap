@@ -601,7 +601,10 @@ const controlForm = function(position) {
     (0, _formViewJsDefault.default).renderForm();
 };
 const controlWorkouts = function(newWorkout) {
-    _modelJs.addWorkout(newWorkout);
+    const workout = _modelJs.addWorkout(newWorkout);
+    console.log(workout);
+    (0, _mapViewDefault.default).addMarker(workout);
+    (0, _formViewJsDefault.default).hideForm();
 };
 const init = async function() {
     await controlMap();
@@ -632,7 +635,14 @@ class MapView {
             ]);
         });
     }
-    addMarkers() {}
+    addMarker(workout) {
+        console.log(workout);
+        L.marker(workout.coords).addTo(this.map).bindPopup(L.popup({
+            className: `marker--${workout.type}`,
+            autoClose: false,
+            closeOnClick: false
+        })).setPopupContent(workout.type === "running" ? "\uD83C\uDFC3 Corrida" : "\uD83D\uDEB4 Pedalada").openPopup();
+    }
 }
 exports.default = new MapView;
 
@@ -733,6 +743,8 @@ const addWorkout = function(newWorkout) {
     if (newWorkout.type === "running") workout = new Running(state.position, newWorkout.duration, newWorkout.distance, newWorkout.distance);
     if (newWorkout.type === "cycling") workout = new Cycling(state.position, newWorkout.duration, newWorkout.distance, newWorkout.elevation);
     console.log(workout);
+    state.workouts.push(workout);
+    return workout;
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cU6RJ":[function(require,module,exports) {
@@ -755,6 +767,9 @@ class FormView {
             const data = Object.fromEntries(dataArr);
             handler(data);
         });
+    }
+    hideForm() {
+        this.#parentEl.classList.add("hidden");
     }
 }
 exports.default = new FormView;
