@@ -19,7 +19,7 @@ class MapView {
     }
 
     addMarker(workout) {
-        console.log(workout)
+    console.log(workout)
     L.marker(workout.coords)
     .addTo(this.map)
     .bindPopup(
