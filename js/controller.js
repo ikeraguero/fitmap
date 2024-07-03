@@ -15,9 +15,8 @@ const controlForm = function(position) {
 }
 
 const controlWorkouts = function(newWorkout) {
-    const workout = model.addWorkout(newWorkout)
-    console.log(workout)
-    mapView.addMarker(workout)
+    model.addWorkout(newWorkout)
+    mapView.renderMarkers(model.state.workouts)
     formView.hideForm()
 }
 
@@ -25,6 +24,7 @@ const init = async function() {
     await controlMap()
     mapView.addEventHandler(controlForm)
     formView.addEventHandler(controlWorkouts)
+    mapView.renderMarkers(model.state.workouts);
 }
 
 init()

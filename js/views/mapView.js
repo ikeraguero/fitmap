@@ -3,7 +3,7 @@ class MapView {
     map;
 
     renderMap(position) {
-        this.map = L.map("map").setView(position, 13);
+        this.map = L.map("map").setView(position, 15);
         L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
           maxZoom: 19,
           attribution:
@@ -18,20 +18,24 @@ class MapView {
         })
     }
 
-    addMarker(workout) {
-    console.log(workout)
-    L.marker(workout.coords)
-    .addTo(this.map)
-    .bindPopup(
-      L.popup({
-        className: `marker--${workout.type}`,
-        autoClose: false,
-        closeOnClick: false,
-      })
-    )
-    .setPopupContent(workout.type === "running" ? "🏃 Corrida" : "🚴 Pedalada")
-    .openPopup();
+    renderMarkers(data) {
+      console.log(data)
+      if(data.length > 0) {
+        data.forEach(workout => {
+          L.marker(workout.coords)
+      .addTo(this.map)
+      .bindPopup(
+        L.popup({
+          className: `marker--${workout.type}`,
+          autoClose: false,
+          closeOnClick: false,
+        })
+      )
+      .setPopupContent(workout.type === "running" ? "🏃 Corrida" : "🚴 Pedalada")
+      .openPopup();
+    })
+  } return
     }
-}
+  }
 
 export default new MapView;

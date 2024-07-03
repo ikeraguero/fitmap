@@ -601,15 +601,15 @@ const controlForm = function(position) {
     (0, _formViewJsDefault.default).renderForm();
 };
 const controlWorkouts = function(newWorkout) {
-    const workout = _modelJs.addWorkout(newWorkout);
-    console.log(workout);
-    (0, _mapViewDefault.default).addMarker(workout);
+    _modelJs.addWorkout(newWorkout);
+    (0, _mapViewDefault.default).renderMarkers(_modelJs.state.workouts);
     (0, _formViewJsDefault.default).hideForm();
 };
 const init = async function() {
     await controlMap();
     (0, _mapViewDefault.default).addEventHandler(controlForm);
     (0, _formViewJsDefault.default).addEventHandler(controlWorkouts);
+    (0, _mapViewDefault.default).renderMarkers(_modelJs.state.workouts);
 };
 init();
 
@@ -620,7 +620,7 @@ class MapView {
     #parentEl = document.querySelector(".map");
     map;
     renderMap(position) {
-        this.map = L.map("map").setView(position, 13);
+        this.map = L.map("map").setView(position, 15);
         L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -635,13 +635,16 @@ class MapView {
             ]);
         });
     }
-    addMarker(workout) {
-        console.log(workout);
-        L.marker(workout.coords).addTo(this.map).bindPopup(L.popup({
-            className: `marker--${workout.type}`,
-            autoClose: false,
-            closeOnClick: false
-        })).setPopupContent(workout.type === "running" ? "\uD83C\uDFC3 Corrida" : "\uD83D\uDEB4 Pedalada").openPopup();
+    renderMarkers(data) {
+        console.log(data);
+        if (data.length > 0) data.forEach((workout)=>{
+            L.marker(workout.coords).addTo(this.map).bindPopup(L.popup({
+                className: `marker--${workout.type}`,
+                autoClose: false,
+                closeOnClick: false
+            })).setPopupContent(workout.type === "running" ? "\uD83C\uDFC3 Corrida" : "\uD83D\uDEB4 Pedalada").openPopup();
+        });
+        return;
     }
 }
 exports.default = new MapView;
@@ -679,8 +682,10 @@ exports.export = function(dest, destName, get) {
 },{}],"Py0LO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "getPosition", ()=>getPosition);
 parcelHelpers.export(exports, "setPostion", ()=>setPostion);
+parcelHelpers.export(exports, "persistWorkouts", ()=>persistWorkouts);
 parcelHelpers.export(exports, "addWorkout", ()=>addWorkout);
 let state = {
     position: "",
@@ -737,6 +742,9 @@ const setPostion = function(position) {
     state.position = position;
     console.log(state);
 };
+const persistWorkouts = function() {
+    localStorage.setItem("workouts", JSON.stringify(state.workouts));
+};
 const addWorkout = function(newWorkout) {
     console.log(newWorkout);
     let workout;
@@ -744,8 +752,14 @@ const addWorkout = function(newWorkout) {
     if (newWorkout.type === "cycling") workout = new Cycling(state.position, newWorkout.duration, newWorkout.distance, newWorkout.elevation);
     console.log(workout);
     state.workouts.push(workout);
+    persistWorkouts();
     return workout;
 };
+const init = function() {
+    const storage = localStorage.getItem("workouts");
+    if (storage) state.workouts = JSON.parse(storage);
+};
+init();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cU6RJ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

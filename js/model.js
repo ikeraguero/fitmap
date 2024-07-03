@@ -1,4 +1,4 @@
-let state = {
+export let state = {
     position: '',
     workouts: []
 }
@@ -57,6 +57,11 @@ export const setPostion = function(position) {
     console.log(state)
 }
 
+
+export const persistWorkouts = function() {
+  localStorage.setItem("workouts", JSON.stringify(state.workouts))
+}
+
 export const addWorkout = function(newWorkout) {
     console.log(newWorkout)
     let workout;
@@ -78,5 +83,13 @@ export const addWorkout = function(newWorkout) {
     }
     console.log(workout)
     state.workouts.push(workout)
+    persistWorkouts();
     return workout
 }
+
+const init = function() {
+  const storage = localStorage.getItem("workouts");
+  if(storage) state.workouts = JSON.parse(storage)
+}
+
+init()
