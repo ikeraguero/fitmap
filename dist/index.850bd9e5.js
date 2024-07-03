@@ -590,6 +590,8 @@ var _mapView = require("./views/mapView");
 var _mapViewDefault = parcelHelpers.interopDefault(_mapView);
 var _formViewJs = require("./views/formView.js");
 var _formViewJsDefault = parcelHelpers.interopDefault(_formViewJs);
+var _workoutsViewJs = require("./views/workoutsView.js");
+var _workoutsViewJsDefault = parcelHelpers.interopDefault(_workoutsViewJs);
 const controlMap = async function() {
     // Getting the position
     const position = await _modelJs.getPosition();
@@ -604,16 +606,19 @@ const controlWorkouts = function(newWorkout) {
     _modelJs.addWorkout(newWorkout);
     (0, _mapViewDefault.default).renderMarkers(_modelJs.state.workouts);
     (0, _formViewJsDefault.default).hideForm();
+    (0, _workoutsViewJsDefault.default).renderWorkouts(_modelJs.state.workouts);
 };
 const init = async function() {
     await controlMap();
-    (0, _mapViewDefault.default).addEventHandler(controlForm);
     (0, _formViewJsDefault.default).addEventHandler(controlWorkouts);
+    (0, _formViewJsDefault.default).addChangeEventHandler();
+    (0, _mapViewDefault.default).addEventHandler(controlForm);
     (0, _mapViewDefault.default).renderMarkers(_modelJs.state.workouts);
+    if (_modelJs.state.workouts.length > 0) (0, _workoutsViewJsDefault.default).renderWorkouts(_modelJs.state.workouts);
 };
 init();
 
-},{"./views/mapView":"kRWdp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Py0LO","./views/formView.js":"cU6RJ"}],"kRWdp":[function(require,module,exports) {
+},{"./views/mapView":"kRWdp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Py0LO","./views/formView.js":"cU6RJ","./views/workoutsView.js":"dDLYg"}],"kRWdp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class MapView {
@@ -748,10 +753,10 @@ const persistWorkouts = function() {
 const addWorkout = function(newWorkout) {
     console.log(newWorkout);
     let workout;
-    if (newWorkout.type === "running") workout = new Running(state.position, newWorkout.duration, newWorkout.distance, newWorkout.distance);
-    if (newWorkout.type === "cycling") workout = new Cycling(state.position, newWorkout.duration, newWorkout.distance, newWorkout.elevation);
+    if (newWorkout.type === "running") workout = new Running(state.position, newWorkout.duration, newWorkout.distance, newWorkout.cadence);
+    if (newWorkout.type === "cycling") workout = new Cycling(state.position, newWorkout.duration, newWorkout.distance, newWorkout.elevationGain);
     console.log(workout);
-    state.workouts.push(workout);
+    state.workouts.unshift(workout);
     persistWorkouts();
     return workout;
 };
@@ -767,6 +772,9 @@ parcelHelpers.defineInteropFlag(exports);
 class FormView {
     #parentEl = document.querySelector(".form");
     inputDuration = document.querySelector(".form-duration");
+    inputType = document.querySelector(".form-input-type");
+    cadenceLabel = document.querySelector(".cadence-label");
+    elevationEl = document.querySelector(".form-elevation");
     renderForm() {
         this.#parentEl.classList.remove("hidden");
         this.inputDuration.focus();
@@ -782,11 +790,66 @@ class FormView {
             handler(data);
         });
     }
+    addChangeEventHandler() {
+        console.log(this.cadenceLabel);
+        this.inputType.addEventListener("change", (e)=>{
+            this.cadenceLabel.classList.toggle("hidden");
+            this.elevationEl.classList.toggle("hidden");
+        });
+    }
     hideForm() {
         this.#parentEl.classList.add("hidden");
     }
 }
 exports.default = new FormView;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dDLYg":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class WorkoutsView {
+    #parentEl = document.querySelector(".workouts-container");
+    workouts;
+    renderWorkouts(workouts) {
+        this.workouts = workouts;
+        const markup = this.generateMarkup();
+        console.log(markup);
+        this.#parentEl.insertAdjacentHTML("beforeend", markup);
+    }
+    generateMarkup() {
+        let markup = "";
+        this.workouts.forEach((workout)=>{
+            markup += `
+            <div class="workout-inner-container ${workout.type}-workout-color">
+            <div class="workout-message">${workout.type === "running" ? "Corrida" : "Pedalada"} | ${workout.date}</div>
+            <div class="workout-stats">
+              <div class="distance-stat">
+                <span>${workout.type === "running" ? "\uD83C\uDFC3" : "\uD83D\uDEB4"} ${workout.distance}<span>km</span> </span>
+              </div>
+              <div class="duration-stat">
+                <span>\u{23F0} ${workout.duration}<span>min</span> </span>
+              </div>
+          `;
+            if (workout.type === "running") markup += `<div class="pace-stat">
+            <span>\u{26A1} ${Math.round(workout.pace * 10) / 10} <span>min/km</span> </span>
+            </div>
+            <div class="cadence-stat">
+            <span>\u{1F9B6} ${workout.cadence}<span>spm</span> </span>
+            </div>
+            </div>
+            </div>`;
+            if (workout.type === "cycling") markup += `<div class="pace-stat">
+            <span>\u{26A1} ${Math.round(workout.speed * 10) / 10} <span>km/h</span> </span>
+            </div>
+            <div class="cadence-stat">
+            <span>\u{26F0}\u{FE0F} ${workout.elevationGain}<span>m</span> </span>
+            </div>
+            </div>
+            </div>`;
+        });
+        return markup;
+    }
+}
+exports.default = new WorkoutsView;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fjwbG","1GgH0"], "1GgH0", "parcelRequire6a86")
 

@@ -70,7 +70,7 @@ export const addWorkout = function(newWorkout) {
             state.position,
             newWorkout.duration,
             newWorkout.distance,
-            newWorkout.distance
+            newWorkout.cadence
           );
     }
     if(newWorkout.type === 'cycling') {
@@ -78,11 +78,11 @@ export const addWorkout = function(newWorkout) {
             state.position,
             newWorkout.duration,
             newWorkout.distance,
-            newWorkout.elevation
+            newWorkout.elevationGain
           );
     }
     console.log(workout)
-    state.workouts.push(workout)
+    state.workouts.unshift(workout)
     persistWorkouts();
     return workout
 }
