@@ -773,8 +773,11 @@ class FormView {
     #parentEl = document.querySelector(".form");
     inputDuration = document.querySelector(".form-duration");
     inputType = document.querySelector(".form-input-type");
+    inputDistance = document.querySelector(".form-distance");
     cadenceLabel = document.querySelector(".cadence-label");
-    elevationEl = document.querySelector(".form-elevation");
+    cadenceForm = document.querySelector(".form-cadence");
+    elevationForm = document.querySelector(".form-elevation");
+    inputElevation = document.querySelector(".finput-elevation");
     renderForm() {
         this.#parentEl.classList.remove("hidden");
         this.inputDuration.focus();
@@ -782,19 +785,39 @@ class FormView {
     addEventHandler(handler) {
         this.#parentEl.addEventListener("submit", (e)=>{
             e.preventDefault();
-            console.log(this.#parentEl);
+            if (!Number.isInteger(+this.inputDuration.value)) {
+                console.log("Error");
+                return;
+            }
+            if (isNaN(+this.inputDistance.value)) {
+                console.log("Error");
+                return;
+            }
+            if (isNaN(+this.cadenceForm.value) && isNaN(+this.elevationForm.value)) {
+                console.log(this.cadenceLabel);
+                console.log("Error");
+                return;
+            }
             const dataArr = [
                 ...new FormData(this.#parentEl)
             ];
             const data = Object.fromEntries(dataArr);
             handler(data);
+            this.clearForm();
         });
+    }
+    clearForm() {
+        this.inputDuration.value = "";
+        this.inputDuration.value = "";
+        this.inputDistance.value = "";
+        this.cadenceForm.value = "";
+        this.elevationForm.value = "";
     }
     addChangeEventHandler() {
         console.log(this.cadenceLabel);
         this.inputType.addEventListener("change", (e)=>{
             this.cadenceLabel.classList.toggle("hidden");
-            this.elevationEl.classList.toggle("hidden");
+            this.elevationForm.classList.toggle("hidden");
         });
     }
     hideForm() {
@@ -812,7 +835,6 @@ class WorkoutsView {
     renderWorkouts(workouts) {
         this.workouts = workouts;
         const markup = this.generateMarkup();
-        console.log(markup);
         this.#parentEl.insertAdjacentHTML("beforeend", markup);
     }
     generateMarkup() {

@@ -5,7 +5,6 @@ class WorkoutsView {
     renderWorkouts(workouts) {
         this.workouts = workouts
         const markup = this.generateMarkup()
-        console.log(markup)
         this.#parentEl.insertAdjacentHTML("beforeend", markup)
     }
 
