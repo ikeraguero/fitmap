@@ -7,7 +7,6 @@ const controlMap = async function() {
     // Getting the position
     const position = await model.getPosition();
     mapView.renderMap(position);
-    console.log("Done")
 }
 
 const controlForm = function(position) {
@@ -15,8 +14,8 @@ const controlForm = function(position) {
     formView.renderForm()
 }
 
-const controlWorkouts = function(newWorkout) {
-    model.addWorkout(newWorkout)
+const controlWorkouts = async function(newWorkout) {
+    await model.addWorkout(newWorkout)
     mapView.renderMarkers(model.state.workouts)
     formView.hideForm()
     workoutsView.renderWorkouts(model.state.workouts)

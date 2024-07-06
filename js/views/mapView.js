@@ -19,7 +19,6 @@ class MapView {
     }
 
     renderMarkers(data) {
-      console.log(data)
       if(data.length > 0) {
         data.forEach(workout => {
           L.marker(workout.coords)

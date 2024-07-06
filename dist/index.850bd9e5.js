@@ -596,14 +596,13 @@ const controlMap = async function() {
     // Getting the position
     const position = await _modelJs.getPosition();
     (0, _mapViewDefault.default).renderMap(position);
-    console.log("Done");
 };
 const controlForm = function(position) {
     _modelJs.setPostion(position);
     (0, _formViewJsDefault.default).renderForm();
 };
-const controlWorkouts = function(newWorkout) {
-    _modelJs.addWorkout(newWorkout);
+const controlWorkouts = async function(newWorkout) {
+    await _modelJs.addWorkout(newWorkout);
     (0, _mapViewDefault.default).renderMarkers(_modelJs.state.workouts);
     (0, _formViewJsDefault.default).hideForm();
     (0, _workoutsViewJsDefault.default).renderWorkouts(_modelJs.state.workouts);
@@ -641,7 +640,6 @@ class MapView {
         });
     }
     renderMarkers(data) {
-        console.log(data);
         if (data.length > 0) data.forEach((workout)=>{
             L.marker(workout.coords).addTo(this.map).bindPopup(L.popup({
                 className: `marker--${workout.type}`,
@@ -692,6 +690,7 @@ parcelHelpers.export(exports, "getPosition", ()=>getPosition);
 parcelHelpers.export(exports, "setPostion", ()=>setPostion);
 parcelHelpers.export(exports, "persistWorkouts", ()=>persistWorkouts);
 parcelHelpers.export(exports, "addWorkout", ()=>addWorkout);
+var _configJs = require("./config.js");
 let state = {
     position: "",
     workouts: []
@@ -704,16 +703,17 @@ class Workout {
         day: "numeric"
     }).format(new Date());
     id = (Date.now() + "").slice(-10);
-    constructor(coords, duration, distance){
+    constructor(coords, duration, distance, condition){
         this.coords = coords;
         this.duration = duration;
         this.distance = distance;
+        this.condition = condition;
     }
 }
 class Running extends Workout {
     type = "running";
-    constructor(coords, duration, distance, cadence){
-        super(coords, duration, distance);
+    constructor(coords, duration, distance, condition, cadence){
+        super(coords, duration, distance, condition);
         this.cadence = cadence;
         this.calcPace();
     }
@@ -723,8 +723,8 @@ class Running extends Workout {
 }
 class Cycling extends Workout {
     type = "cycling";
-    constructor(coords, duration, distance, elevationGain){
-        super(coords, duration, distance);
+    constructor(coords, duration, distance, condition, elevationGain){
+        super(coords, duration, distance, condition);
         this.elevationGain = elevationGain;
         this.calcSpeed();
     }
@@ -745,26 +745,40 @@ const getPosition = async function() {
 };
 const setPostion = function(position) {
     state.position = position;
-    console.log(state);
 };
 const persistWorkouts = function() {
     localStorage.setItem("workouts", JSON.stringify(state.workouts));
 };
-const addWorkout = function(newWorkout) {
-    console.log(newWorkout);
+const addWorkout = async function(newWorkout) {
+    const condition = await getWeather();
     let workout;
-    if (newWorkout.type === "running") workout = new Running(state.position, newWorkout.duration, newWorkout.distance, newWorkout.cadence);
-    if (newWorkout.type === "cycling") workout = new Cycling(state.position, newWorkout.duration, newWorkout.distance, newWorkout.elevationGain);
-    console.log(workout);
+    if (newWorkout.type === "running") workout = new Running(state.position, newWorkout.duration, newWorkout.distance, condition, newWorkout.cadence);
+    if (newWorkout.type === "cycling") workout = new Cycling(state.position, newWorkout.duration, newWorkout.distance, condition, newWorkout.elevation);
     state.workouts.unshift(workout);
+    console.log(state.workouts);
     persistWorkouts();
-    return workout;
+};
+getWeather = async function() {
+    const { latitude: lat, longitude: lng } = state.position;
+    const geocodeData = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=-${lng}&localityLanguage=en`).then((res)=>res.json());
+    if (!geocodeData) throw new Error("Problem getting location data");
+    const weatherResponse = await fetch(`http://api.weatherapi.com/v1/current.json?key=${(0, _configJs.WEATHER_API_KEY)}&q=${geocodeData.locality}&aqi=no`).then((res)=>res.json());
+    const condition = weatherResponse.current.condition.text;
+    return condition;
 };
 const init = function() {
     const storage = localStorage.getItem("workouts");
     if (storage) state.workouts = JSON.parse(storage);
 };
 init();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"4Wc5b"}],"4Wc5b":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "WEATHER_API_KEY", ()=>WEATHER_API_KEY);
+parcelHelpers.export(exports, "REVERSE_GEOCODING_API_KEY", ()=>REVERSE_GEOCODING_API_KEY);
+const WEATHER_API_KEY = "eabf4c1d3e6e4559b0b14553240507";
+const REVERSE_GEOCODING_API_KEY = "hXcxyrk9Nrrcd5bMUeIV";
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cU6RJ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -814,7 +828,6 @@ class FormView {
         this.elevationForm.value = "";
     }
     addChangeEventHandler() {
-        console.log(this.cadenceLabel);
         this.inputType.addEventListener("change", (e)=>{
             this.cadenceLabel.classList.toggle("hidden");
             this.elevationForm.classList.toggle("hidden");
@@ -831,16 +844,18 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class WorkoutsView {
     #parentEl = document.querySelector(".workouts-container");
+    workoutsList = document.querySelector(".workouts-list");
     workouts;
     renderWorkouts(workouts) {
+        this.workoutsList.innerHTML = "";
         this.workouts = workouts;
         const markup = this.generateMarkup();
-        this.#parentEl.insertAdjacentHTML("beforeend", markup);
+        this.workoutsList.insertAdjacentHTML("beforeend", markup);
     }
     generateMarkup() {
         let markup = "";
         this.workouts.forEach((workout)=>{
-            markup += `
+            markup += `<div class="workout">
             <div class="workout-inner-container ${workout.type}-workout-color">
             <div class="workout-message">${workout.type === "running" ? "Corrida" : "Pedalada"} | ${workout.date}</div>
             <div class="workout-stats">

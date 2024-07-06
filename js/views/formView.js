@@ -46,7 +46,6 @@ class FormView {
     }
     
     addChangeEventHandler() {
-        console.log(this.cadenceLabel)
         this.inputType.addEventListener("change", (e) => {
             this.cadenceLabel.classList.toggle("hidden");
             this.elevationForm.classList.toggle("hidden");

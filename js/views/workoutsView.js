@@ -1,17 +1,19 @@
 class WorkoutsView {
     #parentEl = document.querySelector(".workouts-container");
+    workoutsList = document.querySelector(".workouts-list")
     workouts;
 
     renderWorkouts(workouts) {
+        this.workoutsList.innerHTML = ''
         this.workouts = workouts
         const markup = this.generateMarkup()
-        this.#parentEl.insertAdjacentHTML("beforeend", markup)
+        this.workoutsList.insertAdjacentHTML("beforeend", markup)
     }
 
     generateMarkup() {
         let markup = "";
         this.workouts.forEach(workout=>{
-            markup += `
+            markup += `<div class="workout">
             <div class="workout-inner-container ${workout.type}-workout-color">
             <div class="workout-message">${
               workout.type === "running" ? "Corrida" : "Pedalada"
