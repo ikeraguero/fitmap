@@ -151,4 +151,15 @@ form label {
 .cycling-workout-color {
   border-left: 5px solid #2260d4;
 }
+
+.workout-details {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.workout-weather img {
+  width: 24px;
+  height: 24px;
+}
 /*# sourceMappingURL=index.3a01df49.css.map */

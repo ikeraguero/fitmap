@@ -602,9 +602,9 @@ const controlForm = function(position) {
     (0, _formViewJsDefault.default).renderForm();
 };
 const controlWorkouts = async function(newWorkout) {
+    (0, _formViewJsDefault.default).hideForm();
     await _modelJs.addWorkout(newWorkout);
     (0, _mapViewDefault.default).renderMarkers(_modelJs.state.workouts);
-    (0, _formViewJsDefault.default).hideForm();
     (0, _workoutsViewJsDefault.default).renderWorkouts(_modelJs.state.workouts);
 };
 const init = async function() {
@@ -763,7 +763,8 @@ getWeather = async function() {
     const geocodeData = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=-${lng}&localityLanguage=en`).then((res)=>res.json());
     if (!geocodeData) throw new Error("Problem getting location data");
     const weatherResponse = await fetch(`http://api.weatherapi.com/v1/current.json?key=${(0, _configJs.WEATHER_API_KEY)}&q=${geocodeData.locality}&aqi=no`).then((res)=>res.json());
-    const condition = weatherResponse.current.condition.text;
+    const condition = weatherResponse.current.condition.icon.slice(2);
+    console.log(condition);
     return condition;
 };
 const init = function() {
@@ -791,7 +792,7 @@ class FormView {
     cadenceLabel = document.querySelector(".cadence-label");
     cadenceForm = document.querySelector(".form-cadence");
     elevationForm = document.querySelector(".form-elevation");
-    inputElevation = document.querySelector(".finput-elevation");
+    inputElevation = document.querySelector(".input-elevation");
     renderForm() {
         this.#parentEl.classList.remove("hidden");
         this.inputDuration.focus();
@@ -825,7 +826,7 @@ class FormView {
         this.inputDuration.value = "";
         this.inputDistance.value = "";
         this.cadenceForm.value = "";
-        this.elevationForm.value = "";
+        this.inputElevation.value = "";
     }
     addChangeEventHandler() {
         this.inputType.addEventListener("change", (e)=>{
@@ -837,7 +838,7 @@ class FormView {
         this.#parentEl.classList.add("hidden");
     }
 }
-exports.default = new FormView;
+exports.default = new FormView();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dDLYg":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -855,9 +856,20 @@ class WorkoutsView {
     generateMarkup() {
         let markup = "";
         this.workouts.forEach((workout)=>{
-            markup += `<div class="workout">
-            <div class="workout-inner-container ${workout.type}-workout-color">
+            console.log(workout.condition);
+            markup += `
+      <div class="workout">
+      <div class="workout-inner-container ${workout.type}-workout-color">
+            <div class="workout-details">
             <div class="workout-message">${workout.type === "running" ? "Corrida" : "Pedalada"} | ${workout.date}</div>
+                  <div class="workout-weather">
+                    <img
+                      src="http://${workout.condition}"
+                      alt="Weather"
+                    />
+                  </div>
+                </div>
+            
             <div class="workout-stats">
               <div class="distance-stat">
                 <span>${workout.type === "running" ? "\uD83C\uDFC3" : "\uD83D\uDEB4"} ${workout.distance}<span>km</span> </span>
@@ -886,7 +898,7 @@ class WorkoutsView {
         return markup;
     }
 }
-exports.default = new WorkoutsView;
+exports.default = new WorkoutsView();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fjwbG","1GgH0"], "1GgH0", "parcelRequire6a86")
 
