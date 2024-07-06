@@ -47,7 +47,7 @@ class WorkoutsView {
             } <span>min/km</span> </span>
             </div>
             <div class="cadence-stat">
-            <span>🦶 ${workout.cadence}<span>spm</span> </span>
+            <span>🦶 ${workout.cadence}<span>ppm</span> </span>
             </div>
             </div>
             </div>`;

@@ -27,11 +27,13 @@ body {
 }
 
 #map {
+  border-radius: 9px;
   height: 100%;
 }
 
 .main-container {
   background-color: #d3d3d3;
+  border-radius: 9px;
   grid-template-columns: 1.7fr 1fr;
   width: 95%;
   height: 92%;
@@ -49,6 +51,8 @@ body {
 
 .workouts {
   background-color: var(--color-dark--1);
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
   overflow-y: scroll;
 }
 
@@ -125,8 +129,9 @@ form label {
 .workout-inner-container {
   background-color: var(--color-dark--2);
   color: #fff;
+  border-radius: 9px;
   margin-top: 1.2rem;
-  padding: 1.4rem 2.4rem;
+  padding: 2.4rem 3.4rem;
   font-size: 1.4rem;
 }
 

@@ -99,7 +99,7 @@ getWeather = async function () {
     throw new Error("Problem getting location data");
   }
   const weatherResponse = await fetch(
-    `http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${geocodeData.locality}&aqi=no`
+    `https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${geocodeData.locality}&aqi=no`
   ).then((res) => res.json());
 
   const condition = weatherResponse.current.condition.icon.slice(2);

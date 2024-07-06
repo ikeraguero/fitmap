@@ -762,7 +762,7 @@ getWeather = async function() {
     const { latitude: lat, longitude: lng } = state.position;
     const geocodeData = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=-${lng}&localityLanguage=en`).then((res)=>res.json());
     if (!geocodeData) throw new Error("Problem getting location data");
-    const weatherResponse = await fetch(`http://api.weatherapi.com/v1/current.json?key=${(0, _configJs.WEATHER_API_KEY)}&q=${geocodeData.locality}&aqi=no`).then((res)=>res.json());
+    const weatherResponse = await fetch(`https://api.weatherapi.com/v1/current.json?key=${(0, _configJs.WEATHER_API_KEY)}&q=${geocodeData.locality}&aqi=no`).then((res)=>res.json());
     const condition = weatherResponse.current.condition.icon.slice(2);
     console.log(condition);
     return condition;
@@ -882,7 +882,7 @@ class WorkoutsView {
             <span>\u{26A1} ${Math.round(workout.pace * 10) / 10} <span>min/km</span> </span>
             </div>
             <div class="cadence-stat">
-            <span>\u{1F9B6} ${workout.cadence}<span>spm</span> </span>
+            <span>\u{1F9B6} ${workout.cadence}<span>ppm</span> </span>
             </div>
             </div>
             </div>`;
